@@ -127,4 +127,5 @@ public class PosTest {
                         + "**********************\n";
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
+
 }

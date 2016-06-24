@@ -21,7 +21,7 @@ public class InputParserTest {
 
     @Before
     public void setUp() throws Exception {
-        file = new File("./sampleInput.json");
+        file = new File("src/filesrc/readfile.json");
     }
 
     @After
@@ -84,5 +84,10 @@ public class InputParserTest {
         assertThat(items.size(), is(1));
         Item item = items.get(0);
         assertThat(item.getDiscount(), is(1.00));
+    }
+
+    public static void main(String[] args)throws Exception {
+
+        InputParserTest inputParserTest=new InputParserTest();
     }
 }
