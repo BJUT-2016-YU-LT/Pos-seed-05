@@ -20,7 +20,7 @@ public class TestFileInputS01 {
         testFileInputS01.inputandoutput();
     }
     public void inputandoutput() throws IOException, EmptyShoppingCartException {
-        InputParser inputParser = new InputParser(new File("src/filesrc/data.json"));
+        InputParser inputParser = new InputParser(new File("src/filesrc/data01.json"));
         ArrayList<Item> items = inputParser.parser().getItems();
         ShoppingChart shoppingChart=new ShoppingChart();
         for(Item item:items)
