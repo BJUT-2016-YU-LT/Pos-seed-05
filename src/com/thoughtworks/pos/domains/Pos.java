@@ -1,41 +1,81 @@
 package com.thoughtworks.pos.domains;
-
+import java.util.ArrayList;
 import com.thoughtworks.pos.common.EmptyShoppingCartException;
 import com.thoughtworks.pos.services.services.ReportDataGenerator;
 
 /**
- * Created by Administrator on 2014/12/28.
+ * Created by Liyue on 2016/6/24
  */
 public class Pos {
-    public String getShoppingList(ShoppingChart shoppingChart) throws EmptyShoppingCartException {
+    public String getShoppingList(ShoppingChart shoppingChart) {
+        ArrayList<Item> items = shoppingChart.getItems();
+        ArrayList<ShoppingListItem> shoplist = new ArrayList<ShoppingListItem>();
+        double total=0;
+        double saved=0;
 
-        Report report = new ReportDataGenerator(shoppingChart).generate();
+        int i,j;
+        for (i = 0; i <items.size() ; i++) {
+            if(shoplist.size()==0){
+                ShoppingListItem listItem = new ShoppingListItem(items.get(i));
+                shoplist.add(listItem);
+                total += items.get(i).getPrice()*items.get(i).getDiscount();
+                saved += items.get(i).getPrice()*(1-items.get(i).getDiscount());
+                continue;
+            }
 
-        StringBuilder shoppingListBuilder = new StringBuilder()
-                .append("***商店购物清单***\n");
+            for (j = 0; j < shoplist.size(); j++) {
+                if (shoplist.get(j).getBarCode().equals(items.get(i).getBarCode())){
+                    j++;
+                    break;
+                }
+            }
+            j--;
 
-        for (ItemGroup itemGroup : report.getItemGroupies()) {
-            shoppingListBuilder.append(
-                    new StringBuilder()
-                            .append("名称：").append(itemGroup.groupName()).append("，")
-                            .append("数量：").append(itemGroup.groupSize()).append(itemGroup.groupUnit()).append("，")
-                            .append("单价：").append(String.format("%.2f", itemGroup.groupPrice())).append("(元)").append("，")
-                            .append("小计：").append(String.format("%.2f", itemGroup.subTotal())).append("(元)").append("\n")
-                            .toString());
+            if (shoplist.get(j).getBarCode().equals(items.get(i).getBarCode()))
+            {
+                shoplist.get(j).setAmount(shoplist.get(j).getAmount()+1);
+                shoplist.get(j).setSubTotal(shoplist.get(j).getAmount() * shoplist.get(j).getPrice() * shoplist.get(j).getDiscount());
+            }else
+            {
+                ShoppingListItem listItem = new ShoppingListItem(items.get(i));
+                shoplist.add(listItem);
+            }
+
+            total += items.get(i).getPrice()*items.get(i).getDiscount();
+            saved += items.get(i).getPrice()*(1-items.get(i).getDiscount());
         }
-        StringBuilder subStringBuilder = shoppingListBuilder
+        items = null;
+
+        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder gifts = new StringBuilder();
+        stringBuilder.append("***商店购物清单***\n");
+        for (int k = 0; k < shoplist.size(); k++) {
+            stringBuilder
+                    .append("名称：").append(shoplist.get(k).getName()).append("，")
+                    .append("数量：").append(shoplist.get(k).getAmount()).append(shoplist.get(k).getUnit()).append("，")
+                    .append("单价：").append(String.format("%.2f", shoplist.get(k).getPrice()))
+                    .append("(元)").append("，")
+                    .append("小计：").append(String.format("%.2f", shoplist.get(k).getSubTotal()))
+                    .append("(元)").append("\n");
+            if(shoplist.get(k).getAmount() >= 2&&shoplist.get(k).getDiscount() ==1)
+            {
+                gifts
+                        .append("----------------------\n买二赠一商品:\n")
+                        .append("名称：").append(shoplist.get(k).getName()).append("，")
+                        .append("数量：").append("1").append(shoplist.get(k).getUnit()).append("\n");
+                   saved+= shoplist.get(k).getPrice();
+            }
+        }
+        stringBuilder.append(gifts);
+        stringBuilder
                 .append("----------------------\n")
-                .append("总计：").append(String.format("%.2f", report.getTotal())).append("(元)").append("\n");
-
-        double saving = report.getSaving();
-        if (saving == 0) {
-            return subStringBuilder
-                    .append("**********************\n")
-                    .toString();
+                .append("总计：").append(String.format("%.2f", total)).append("(元)").append("\n");
+        if(saved!=0) {
+            stringBuilder.append("节省：").append(String.format("%.2f", saved)).append("(元)").append("\n");
         }
-        return subStringBuilder
-                .append("节省：").append(String.format("%.2f", saving)).append("(元)").append("\n")
-                .append("**********************\n")
-                .toString();
+        stringBuilder.append("**********************\n");
+
+
+        return stringBuilder.toString();
     }
 }

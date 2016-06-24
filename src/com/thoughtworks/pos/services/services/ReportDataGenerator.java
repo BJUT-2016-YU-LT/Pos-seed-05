@@ -41,7 +41,7 @@ public class ReportDataGenerator {
     private static LinkedHashMap<String, List<Item>> groupByItemBarCode(ArrayList<Item> items) {
         LinkedHashMap<String, List<Item>> map = new LinkedHashMap<String, List<Item>>();
         for (Item item : items) {
-            String itemBarCode = item.getBarcode();
+            String itemBarCode = item.getBarCode();
             if (!map.containsKey(itemBarCode)) {
                 map.put(itemBarCode, new ArrayList<Item>());
             }

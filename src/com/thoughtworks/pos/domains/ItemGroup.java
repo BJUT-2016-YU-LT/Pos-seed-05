@@ -27,6 +27,9 @@ public class ItemGroup {
     public double groupPrice() {
         return items.get(0).getPrice();
     }
+    public  boolean groupPromotionStatus(){
+        return items.get(0).isPromotion();
+    }
 
     public double subTotal() {
         double result = 0.00;
