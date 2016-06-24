@@ -45,7 +45,8 @@ public class TestMain
             System.out.print("输入你的选择：");
             x=input.nextInt();
         }
-        if(x==4){
+        if(x==4)
+        {
             System.out.println("\n \n \n");
             String actualShoppingList = pos.getShoppingList(shoppingChart);
             System.out.println(actualShoppingList);

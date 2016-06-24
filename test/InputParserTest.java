@@ -64,7 +64,7 @@ public class InputParserTest {
         assertThat(items.size(), is(1));
         Item item = items.get(0);
         assertThat(item.getName(), is("电池"));
-        assertThat(item.getBarcode(), is("ITEM000004"));
+        assertThat(item.getBarCode(), is("ITEM000004"));
         assertThat(item.getUnit(), is("个"));
         assertThat(item.getPrice(), is(2.00));
         assertThat(item.getDiscount(), is(0.8));
