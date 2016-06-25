@@ -20,7 +20,7 @@ public class InputParser {
     private File file;
     private File file2;
     private final ObjectMapper objectMapper;
-
+ //
     public InputParser(File file) {
         this.file = file;
         objectMapper = new ObjectMapper(new JsonFactory());
