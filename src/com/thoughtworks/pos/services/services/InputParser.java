@@ -37,9 +37,6 @@ public class InputParser {
         Item[] items = objectMapper.readValue(textInput, Item[].class);
         return BuildShoppingChart(items);
     }
-
-
-
     private ShoppingChart BuildShoppingChart(Item[] items) {
         ShoppingChart shoppingChart = new ShoppingChart();
         for (Item item : items) {
@@ -47,7 +44,7 @@ public class InputParser {
         }
         return shoppingChart;
     }
-
+  //需求3新增
     public ShoppingChart parsertwofile() throws IOException {
         int num_product=0;
         String textInput_index = FileUtils.readFileToString(file);
