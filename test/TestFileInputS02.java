@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by ZXR on 2016/6/24.
  */
+//需求2测试
 public class TestFileInputS02 {
     public static void main(String[] args) throws IOException, EmptyShoppingCartException {
         TestFileInputS02 testFileInputS02=new TestFileInputS02();

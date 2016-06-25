@@ -10,7 +10,6 @@ public class Item {
     private double price;
     private double discount;
 
-
     public Item() {
     }
 
@@ -21,12 +20,16 @@ public class Item {
         this.setUnit(unit);
         this.setPrice(price);
     }
+    public Item(String name, String unit, double price){
+        this.setName(name);
+        this.setUnit(unit);
+        this.setPrice(price);
+    }
 
     public Item(String barcode, String name, String unit, double price, double discount) {
         this(barcode, name, unit, price);
         this.setDiscount(discount);
     }
-
     public String getName() {
         return name;
     }
