@@ -40,7 +40,7 @@ public class InputParserTestFor03 {
         }
     }
 
-    @Test
+    @Test//输入输出文件里都只有一个商品，不打折
     public void testParseJsonFileToItems() throws Exception {
         PrintWriter printWriter_index = new PrintWriter(file_index);
         String sampleInput_index = new StringBuilder()
@@ -81,7 +81,7 @@ public class InputParserTestFor03 {
         assertThat(item.getDiscount(), is(0.8));
     }
 
-    @Test
+    @Test//输入输出文件里都只有一个商品，且打折
     public void testParseJsonWhenHasNoDiscount() throws Exception {
         PrintWriter printWriter_index = new PrintWriter(file_index);
         String sampleInput_index = new StringBuilder()
