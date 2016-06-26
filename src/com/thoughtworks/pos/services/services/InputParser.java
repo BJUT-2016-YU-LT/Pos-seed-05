@@ -93,11 +93,7 @@ public class InputParser {
         }
         return BuildShoppingChart(items);
     }
-    //d单元测试
-//    public static void main(String[] args) throws IOException {
-//        InputParser inputParser = new InputParser(new File("src/filesrc/data_index03.json"),new File("src/filesrc/data_list03.json"));
-//        inputParser.parsertwofile();
-//    }
+
 
 
 }
