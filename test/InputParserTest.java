@@ -29,6 +29,7 @@ public class InputParserTest {
         if(file.exists()){
             file.delete();
         }
+        System.out.println("1");
     }
 
     @Test

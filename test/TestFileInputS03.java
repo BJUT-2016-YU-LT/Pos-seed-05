@@ -1,3 +1,4 @@
+import com.thoughtworks.pos.common.EmptyIndex;
 import com.thoughtworks.pos.common.EmptyShoppingCartException;
 import com.thoughtworks.pos.domains.Item;
 import com.thoughtworks.pos.domains.ShoppingChart;
@@ -11,11 +12,11 @@ import java.util.ArrayList;
  * Created by ZXR on 2016/6/24.
  */
 public class TestFileInputS03 {
-    public static void main(String[] args) throws IOException, EmptyShoppingCartException {
+    public static void main(String[] args) throws IOException, EmptyShoppingCartException, EmptyIndex {
         TestFileInputS03 testFileInputS03=new TestFileInputS03();
         testFileInputS03.inputandoutput();
     }
-    public void inputandoutput() throws IOException, EmptyShoppingCartException {
+    public void inputandoutput() throws IOException, EmptyShoppingCartException, EmptyIndex {
         InputParser inputParser = new InputParser(new File("src/filesrc/data_index03.json"),new File("src/filesrc/data_list03.json"));
         ArrayList<Item> items = inputParser.parsertwofile().getItems();
         ShoppingChart shoppingChart=new ShoppingChart();

@@ -4,6 +4,8 @@
 //用于测试需求三
 
 
+import com.thoughtworks.pos.common.EmptyIndex;
+import com.thoughtworks.pos.common.EmptyShoppingCartException;
 import com.thoughtworks.pos.domains.Item;
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +13,7 @@ import org.junit.Test;
 import com.thoughtworks.pos.services.services.InputParser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -116,6 +119,9 @@ public class InputParserTestFor03 {
         assertThat(item.getUnit(), is("个"));
         assertThat(item.getPrice(), is(2.00));
     }
+
+
+
 
 }
 
