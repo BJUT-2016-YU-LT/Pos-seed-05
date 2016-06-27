@@ -175,7 +175,7 @@ public class PosTest {
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
 
-    @Test//测试文档中正确的数据（三个打折商品）
+    @Test//测试文档中正确的数据（二个打折商品）
     public void testGetCorrectShoppingListForTwoItemsForReq4() throws Exception {
         // given
         ShoppingChart shoppingChart = new ShoppingChart();

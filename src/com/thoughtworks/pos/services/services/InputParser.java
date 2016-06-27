@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.pos.common.EmptyIndex;
 import com.thoughtworks.pos.common.EmptyShoppingCartException;
+import com.thoughtworks.pos.common.PromoteAndTwo;
 import com.thoughtworks.pos.domains.Item;
 import com.thoughtworks.pos.domains.ShoppingChart;
 import org.apache.commons.io.FileUtils;
@@ -47,7 +48,7 @@ public class InputParser {
         return shoppingChart;
     }
   //需求3新增
-    public ShoppingChart parsertwofile() throws IOException, EmptyIndex, EmptyShoppingCartException {
+    public ShoppingChart parsertwofile() throws IOException, EmptyIndex, EmptyShoppingCartException, PromoteAndTwo {
         int num_product=0;
         String textInput_index = FileUtils.readFileToString(file);
         String textInput_list = FileUtils.readFileToString(file2);
@@ -67,6 +68,7 @@ public class InputParser {
             i++;
         }
         rootNode=rootNode.path(0);
+        System.out.println(rootNode.asText());
         Iterator<JsonNode> iterator_index = rootNode.elements();
         String textInput_sync;
         textInput_sync="[";
@@ -86,6 +88,8 @@ public class InputParser {
         if(num_product>0) {
             items[0] = items_index[0];
             items[0].setBarcode(Barcode[0]);
+            if(items[0].getDiscount()!=1&&items[0].isPromotion()==true)
+                throw new PromoteAndTwo();
         }
         int j=1;
         for( i=1;i<num_product;i++)
@@ -97,6 +101,8 @@ public class InputParser {
                 j++;
             }
             items[i].setBarcode(Barcode[i]);
+            if(items[i].getDiscount()!=1&&items[i].isPromotion()==true)
+            throw new PromoteAndTwo();
         }
 
         return BuildShoppingChart(items);

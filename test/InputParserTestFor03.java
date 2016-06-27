@@ -6,6 +6,7 @@
 
 import com.thoughtworks.pos.common.EmptyIndex;
 import com.thoughtworks.pos.common.EmptyShoppingCartException;
+import com.thoughtworks.pos.common.PromoteAndTwo;
 import com.thoughtworks.pos.domains.Item;
 import org.junit.After;
 import org.junit.Before;
@@ -120,7 +121,41 @@ public class InputParserTestFor03 {
         assertThat(item.getPrice(), is(2.00));
     }
 
+    @Test(expected = PromoteAndTwo.class)//打折又赠送
+    public void testParseJsonWhenPromoteAndGift() throws Exception {
+        PrintWriter printWriter_index = new PrintWriter(file_index);
+        String sampleInput_index = new StringBuilder()
+                .append("[\n")
+                .append("{\n")
+                .append("\"ITEM000000\":")
+                .append("{\n")
+                .append("\"name\": '电池',\n")
+                .append("\"unit\": '个',\n")
+                .append("\"price\": 2.00,\n")
+                .append("\"discount\": 0.8,\n")
+                .append("\"promotion\":true\n")
+                .append("}\n")
+                .append("}\n")
+                .append("]")
+                .toString();
 
+        printWriter_index.write(sampleInput_index);
+        printWriter_index.close();
+        PrintWriter printWriter_list = new PrintWriter(file_list);
+        String sampleInput_list = new StringBuilder()
+                .append("[\n")
+                .append("\"ITEM000000\"")
+                .append("]")
+                .toString();
+
+        printWriter_list.write(sampleInput_list);
+        printWriter_list.close();
+
+        InputParser inputParser = new InputParser(file_index,file_list);
+        ArrayList<Item> items = inputParser.parsertwofile().getItems();
+
+
+    }
 
 
 }
