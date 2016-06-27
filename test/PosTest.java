@@ -146,7 +146,7 @@ public class PosTest {
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
 
-    @Test//测试文档中正确的数据（三个打折商品）
+    @Test//测试文档中正确的数据（三个赠送商品）
     public void testGetCorrectShoppingListForThreeItemsForReq4() throws Exception {
         // given
         ShoppingChart shoppingChart = new ShoppingChart();
@@ -175,7 +175,7 @@ public class PosTest {
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
 
-    @Test//测试文档中正确的数据（二个打折商品）
+    @Test//测试文档中正确的数据（二个赠送商品）
     public void testGetCorrectShoppingListForTwoItemsForReq4() throws Exception {
         // given
         ShoppingChart shoppingChart = new ShoppingChart();
@@ -199,7 +199,7 @@ public class PosTest {
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
 
-    @Test//测试两个不同的促销商品只买一个的结果
+    @Test//测试两个不同的赠送商品只买一个的结果
     public void testGetCorrectShoppingListForTwoDiffer1ItemForReq4() throws Exception {
         // given
         ShoppingChart shoppingChart = new ShoppingChart();
@@ -224,7 +224,7 @@ public class PosTest {
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
 
-    @Test//测试一个打折一个促销的结果
+    @Test//测试一个打折一个赠送的结果
     public void testGetCorrectShoppingListForTwoDiffer2ItemForReq4() throws Exception {
         // given
         ShoppingChart shoppingChart = new ShoppingChart();
