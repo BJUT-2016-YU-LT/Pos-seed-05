@@ -2,6 +2,7 @@ import com.thoughtworks.pos.common.EmptyShoppingCartException;
 import com.thoughtworks.pos.domains.Item;
 import com.thoughtworks.pos.domains.Pos;
 import com.thoughtworks.pos.domains.ShoppingChart;
+import com.thoughtworks.pos.domains.User;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -429,4 +430,32 @@ public class PosTest {
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
 
+    @Test//需求5文档样例测试
+    public void testGetCorrectShoppingItemForReq5() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,19));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.90, false));
+        shoppingChart.add(new Item("ITEM000001", "雪碧", "瓶", 3.00, 0.8,0.95, false));
+        shoppingChart.add(new Item("ITEM000001", "雪碧", "瓶", 3.00, 0.8,0.95,false));
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        // then
+        String expectedShoppingList =
+                "***商店购物清单***\n"
+                        +"会员编号：  USER001    会员积分：  20分\n"
+                        +"----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：1瓶，单价：3.00(元)，小计：2.70(元)\n"
+                        + "名称：雪碧，数量：2瓶，单价：3.00(元)，小计：4.56(元)\n"
+                        + "----------------------\n"
+                        + "总计：7.26(元)\n"
+                        + "节省：1.74(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
 }

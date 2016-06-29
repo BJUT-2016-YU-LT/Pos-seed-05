@@ -17,8 +17,17 @@ public class Pos {
         Report report = new ReportDataGenerator(shoppingChart).generate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         StringBuilder shoppingListBuilder = new StringBuilder()
-                .append("***商店购物清单***\n")
-                .append("打印时间：")
+                .append("***商店购物清单***\n");
+
+        if(report.getUser().getVip())
+            shoppingListBuilder.append("会员编号：  ")
+                    .append(report.getUserName())
+                    .append("    ")
+                    .append("会员积分：  ")
+                    .append(report.getScore())
+                    .append("分\n")
+                    .append("----------------------\n");
+        shoppingListBuilder .append("打印时间：")
                 .append(new String(dateFormat.format(new Date())))
                 .append("\n")
                 .append("----------------------\n")

@@ -33,7 +33,7 @@ public class ItemGroup {
     public double subTotal() {
         double result = 0.00;
         for (Item item : items)
-            result += item.getPrice() * item.getDiscount();
+            result += item.getPrice() * item.getDiscount()*item.getVipDiscount();
         if(items.get(0).isPromotion())
             result=getRealbuy()*groupPrice();
         return result;
@@ -42,7 +42,7 @@ public class ItemGroup {
     public double saving() {
         double result = 0.00;
         for (Item item : items) {
-            result += item.getPrice() * (1 - item.getDiscount());
+            result += item.getPrice() * (1 - item.getDiscount()*item.getVipDiscount());
         }
         if (Ispromote())
             result+=groupPrice()*(groupSize()-getRealbuy());
