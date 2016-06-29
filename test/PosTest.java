@@ -429,6 +429,38 @@ public class PosTest {
                         + "**********************\n";
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
+    @Test//需求五例子 会员+打折+会员打折
+    public void testGetCorrectShoppingListForDiscountWithVIPInformationForReq5() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,0));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 0.8, 0.5,false));
+        shoppingChart.add(new Item("ITEM000002", "电池", "个", 1.00, 1,1,true));
+
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  0分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：1瓶，单价：3.00(元)，小计：1.20(元)\n"
+                        + "名称：电池，数量：1个，单价：1.00(元)，小计：1.00(元)\n"
+                        + "----------------------\n"
+                        + "总计：2.20(元)\n"
+                        + "节省：1.80(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
 
     @Test//会员不打折
     public void testGetCorrectShoppingListForNoDiscountWithVIPInformationForReq6() throws Exception {
