@@ -430,32 +430,307 @@ public class PosTest {
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
 
-    @Test//需求5文档样例测试
-    public void testGetCorrectShoppingItemForReq5() throws Exception {
+    @Test//会员不打折
+    public void testGetCorrectShoppingListForNoDiscountWithVIPInformationForReq6() throws Exception {
+    // given
+    ShoppingChart shoppingChart = new ShoppingChart();
+    shoppingChart.setUser(new User("USER001",true,19));
+    shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 1,false));
+    shoppingChart.add(new Item("ITEM000002", "电池", "个", 1.00, 1,1,true));
+
+
+    // when
+    Pos pos = new Pos();
+    String actualShoppingList = pos.getShoppingList(shoppingChart);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+    // then
+    String expectedShoppingList = new String();
+    expectedShoppingList =
+            "***商店购物清单***\n"
+                    + "会员编号：  USER001    会员积分：  19分\n"
+                    + "----------------------\n"
+                    +"打印时间："
+                    +new String(dateFormat.format(new Date()))+"\n"
+                    +"----------------------\n"
+                    + "名称：可口可乐，数量：1瓶，单价：3.00(元)，小计：3.00(元)\n"
+                    + "名称：电池，数量：1个，单价：1.00(元)，小计：1.00(元)\n"
+                    + "----------------------\n"
+                    + "总计：4.00(元)\n"
+                    + "**********************\n";
+    assertThat(actualShoppingList, is(expectedShoppingList));
+}
+
+
+    @Test//会员积分0-200，5元区
+    public void testGetCorrectShoppingListFor0to200withVIPDiscountForReq6() throws Exception {
         // given
         ShoppingChart shoppingChart = new ShoppingChart();
         shoppingChart.setUser(new User("USER001",true,19));
-        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.90, false));
-        shoppingChart.add(new Item("ITEM000001", "雪碧", "瓶", 3.00, 0.8,0.95, false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
+        shoppingChart.add(new Item("ITEM000002", "电池", "个", 1.00, 1,1,true));
+
+
+        // when
+
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  20分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：2瓶，单价：3.00(元)，小计：5.40(元)\n"
+                        + "名称：电池，数量：1个，单价：1.00(元)，小计：1.00(元)\n"
+                        + "----------------------\n"
+                        + "总计：6.40(元)\n"
+                        + "节省：0.60(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
+
+
+    @Test//会员积分0-200，10元区
+    public void testGetCorrectShoppingListFor0to200withVIPDiscount2ForReq6() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,19));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
         shoppingChart.add(new Item("ITEM000001", "雪碧", "瓶", 3.00, 0.8,0.95,false));
+        shoppingChart.add(new Item("ITEM000001", "雪碧", "瓶", 3.00, 0.8, 0.95,false));
+        shoppingChart.add(new Item("ITEM000002", "电池", "个", 1.00, 1, 1,true));
+
+
         // when
         Pos pos = new Pos();
         String actualShoppingList = pos.getShoppingList(shoppingChart);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
         // then
-        String expectedShoppingList =
+        String expectedShoppingList = new String();
+        expectedShoppingList =
                 "***商店购物清单***\n"
-                        +"会员编号：  USER001    会员积分：  20分\n"
+                        + "会员编号：  USER001    会员积分：  21分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
                         +"----------------------\n"
+                        + "名称：可口可乐，数量：2瓶，单价：3.00(元)，小计：5.40(元)\n"
+                        + "名称：雪碧，数量：2瓶，单价：3.00(元)，小计：4.56(元)\n"
+                        + "名称：电池，数量：1个，单价：1.00(元)，小计：1.00(元)\n"
+                        + "----------------------\n"
+                        + "总计：10.96(元)\n"
+                        + "节省：2.04(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
+
+    @Test//会员积分200-500，0元区
+    public void testGetCorrectShoppingListFor200to500SingleItemForReq6() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,219));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  219分\n"
+                        + "----------------------\n"
                         +"打印时间："
                         +new String(dateFormat.format(new Date()))+"\n"
                         +"----------------------\n"
                         + "名称：可口可乐，数量：1瓶，单价：3.00(元)，小计：2.70(元)\n"
-                        + "名称：雪碧，数量：2瓶，单价：3.00(元)，小计：4.56(元)\n"
                         + "----------------------\n"
-                        + "总计：7.26(元)\n"
-                        + "节省：1.74(元)\n"
+                        + "总计：2.70(元)\n"
+                        + "节省：0.30(元)\n"
                         + "**********************\n";
         assertThat(actualShoppingList, is(expectedShoppingList));
     }
+
+
+    @Test//会员积分200-500，5元区
+    public void testGetCorrectShoppingListFor200to500TwoItemsWithVIPDiscountForReq6() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,219));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  222分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：2瓶，单价：3.00(元)，小计：5.40(元)\n"
+                        + "----------------------\n"
+                        + "总计：5.40(元)\n"
+                        + "节省：0.60(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
+
+
+    @Test//会员积分200-500，10元区
+    public void testGetCorrectShoppingListFor200to500ForItemsWithVIPDiscountForReq6() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,219));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
+
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  225分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：4瓶，单价：3.00(元)，小计：10.80(元)\n"
+                        + "----------------------\n"
+                        + "总计：10.80(元)\n"
+                        + "节省：1.20(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
+    @Test//会员积分大于500，0元区
+    public void testGetCorrectShoppingListForMoreThan500SingleItemForReq6() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,519));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
+
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  519分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：1瓶，单价：3.00(元)，小计：2.70(元)\n"
+                        + "----------------------\n"
+                        + "总计：2.70(元)\n"
+                        + "节省：0.30(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
+
+
+    @Test//会员积分大于500，5元区
+    public void testGetCorrectShoppingListForMoreThan500SingleMultiItem1ForReq6() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,519));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  524分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：2瓶，单价：3.00(元)，小计：5.40(元)\n"
+                        + "----------------------\n"
+                        + "总计：5.40(元)\n"
+                        + "节省：0.60(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
+
+
+    @Test//会员积分大于500，10元区
+    public void testGetCorrectShoppingListForMoreThan500SingleMultiItem2ForReq6() throws Exception {
+        // given
+        ShoppingChart shoppingChart = new ShoppingChart();
+        shoppingChart.setUser(new User("USER001",true,519));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1, 0.9,false));
+        shoppingChart.add(new Item("ITEM000000", "可口可乐", "瓶", 3.00, 1,0.9,false));
+
+
+        // when
+        Pos pos = new Pos();
+        String actualShoppingList = pos.getShoppingList(shoppingChart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
+
+        // then
+        String expectedShoppingList = new String();
+        expectedShoppingList =
+                "***商店购物清单***\n"
+                        + "会员编号：  USER001    会员积分：  529分\n"
+                        + "----------------------\n"
+                        +"打印时间："
+                        +new String(dateFormat.format(new Date()))+"\n"
+                        +"----------------------\n"
+                        + "名称：可口可乐，数量：4瓶，单价：3.00(元)，小计：10.80(元)\n"
+                        + "----------------------\n"
+                        + "总计：10.80(元)\n"
+                        + "节省：1.20(元)\n"
+                        + "**********************\n";
+        assertThat(actualShoppingList, is(expectedShoppingList));
+    }
+
+
 }

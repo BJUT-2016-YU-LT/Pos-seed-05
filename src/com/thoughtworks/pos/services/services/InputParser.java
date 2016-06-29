@@ -226,8 +226,4 @@ public class InputParser {
         return BuildShoppingChart(items,user);
     }
 
-    public static void main(String[] args) throws IOException, EmptyShoppingCartException, EmptyIndex, PromoteAndTwo {
-        InputParser inputParser=new InputParser(new File("src/filesrc/data_index03.json"),new File("src/filesrc/data_list05.json"),new File("src/filesrc/data_user05.json"));
-        inputParser.parserThreefile();
-    }
 }
