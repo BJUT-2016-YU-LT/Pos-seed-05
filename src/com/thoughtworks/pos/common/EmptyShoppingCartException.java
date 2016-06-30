@@ -3,9 +3,5 @@ package com.thoughtworks.pos.common;
 /**
  * Created by Administrator on 2014/12/31.
  */
-public class EmptyShoppingCartException extends Exception{
-    public EmptyShoppingCartException()
-    {
-        super("购物车里没有商品！");
-    }
+public class EmptyShoppingCartException extends Exception {
 }

@@ -23,9 +23,7 @@ public class ItemGroup {
     public String groupUnit() {
         return items.get(0).getUnit();
     }
-    public Boolean Ispromote(){
-        return items.get(0).isPromotion();
-    }
+
     public double groupPrice() {
         return items.get(0).getPrice();
     }
@@ -34,22 +32,13 @@ public class ItemGroup {
         double result = 0.00;
         for (Item item : items)
             result += item.getPrice() * item.getDiscount();
-        if(items.get(0).isPromotion())
-            result=getRealbuy()*groupPrice();
         return result;
     }
 
     public double saving() {
         double result = 0.00;
-        for (Item item : items) {
+        for (Item item : items)
             result += item.getPrice() * (1 - item.getDiscount());
-        }
-        if (Ispromote())
-            result+=groupPrice()*(groupSize()-getRealbuy());
         return result;
-    }
-    public int getRealbuy()
-    {
-        return (int) Math.ceil(2.0*groupSize()/3);
     }
 }
