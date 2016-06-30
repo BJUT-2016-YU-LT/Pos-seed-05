@@ -1,10 +1,7 @@
 package com.thoughtworks.pos.services.services;
 
 import com.thoughtworks.pos.common.EmptyShoppingCartException;
-import com.thoughtworks.pos.domains.Item;
-import com.thoughtworks.pos.domains.ItemGroup;
-import com.thoughtworks.pos.domains.Report;
-import com.thoughtworks.pos.domains.ShoppingChart;
+import com.thoughtworks.pos.domains.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,12 +20,12 @@ public class ReportDataGenerator {
 
     public Report generate() throws EmptyShoppingCartException {
         ArrayList<Item> items = shoppingChart.getItems();
+        User user=shoppingChart.getUser();
         if (items.size() <= 0) {
             throw new EmptyShoppingCartException();
         }
-
         List<ItemGroup> itemGroups = GetItemGroups(items);
-        return new Report(itemGroups);
+        return new Report(itemGroups,user);
     }
 
     private List<ItemGroup> GetItemGroups(ArrayList<Item> items) {

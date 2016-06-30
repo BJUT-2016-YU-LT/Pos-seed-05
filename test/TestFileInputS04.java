@@ -12,13 +12,13 @@ import java.util.ArrayList;
 /**
  * Created by ZXR on 2016/6/24.
  */
-public class TestFileInputS03 {
+public class TestFileInputS04 {
     public static void main(String[] args) throws IOException, EmptyShoppingCartException, EmptyIndex, PromoteAndTwo {
-        TestFileInputS03 testFileInputS03=new TestFileInputS03();
-        testFileInputS03.inputandoutput();
+        TestFileInputS04 testFileInputS04=new TestFileInputS04();
+        testFileInputS04.inputandoutput();
     }
     public void inputandoutput() throws IOException, EmptyShoppingCartException, EmptyIndex, PromoteAndTwo {
-        InputParser inputParser = new InputParser(new File("src/filesrc/data_index03.json"),new File("src/filesrc/data_list03.json"));
+        InputParser inputParser = new InputParser(new File("src/filesrc/data_index04.json"),new File("src/filesrc/data_list04.json"));
         ArrayList<Item> items = inputParser.parsertwofile().getItems();
         ShoppingChart shoppingChart=new ShoppingChart();
         for(Item item:items)

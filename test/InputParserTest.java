@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2015/1/2.
  */
-
+//用于测试需求1和需求2
 import com.thoughtworks.pos.domains.Item;
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +29,7 @@ public class InputParserTest {
         if(file.exists()){
             file.delete();
         }
+        System.out.println("1");
     }
 
     @Test
@@ -86,8 +87,4 @@ public class InputParserTest {
         assertThat(item.getDiscount(), is(1.00));
     }
 
-    public static void main(String[] args)throws Exception {
-
-        InputParserTest inputParserTest=new InputParserTest();
-    }
 }
